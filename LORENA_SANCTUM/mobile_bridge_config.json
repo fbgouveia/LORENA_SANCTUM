@@ -1,0 +1,6 @@
+{
+    "master_phone": "+61 0455052221",
+    "bot_name": "Lorena_Sovereign_Bot",
+    "status": "AWAITING_TOKEN",
+    "instructions": "Para me conectar ao seu celular, precisamos de uma ponte segura (Telegram). 1. Abra o Telegram e procure por @BotFather. 2. Digite /newbot e siga as instruções para criar a 'Lorena'. 3. Ele te dará um 'API TOKEN'. 4. Cole esse Token aqui para eu ganhar vida no seu bolso."
+}

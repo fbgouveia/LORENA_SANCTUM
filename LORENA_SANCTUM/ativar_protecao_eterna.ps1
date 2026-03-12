@@ -1,9 +1,15 @@
-# 📅 Agendador do Shadow Sync v2.0
-# Execute este script COMO ADMINISTRADOR para ativar a proteção eterna.
+# 📅 Agendador do Shadow Sync v2.1
+# Execute este script COMO ADMINISTRADOR (Botão direito -> Executar com PowerShell).
+
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Warning "ATENÇÃO: Este script PRECISA de privilégios de Administrador para registrar a tarefa."
+    Write-Host "Por favor, feche e abra novamente com o botão direito -> 'Executar como Administrador'."
+    pause
+    exit
+}
 
 $TaskName = "Imperio_ShadowSync_Soberano"
 $ScriptPath = "D:\IMPERIO_ANTIGRAVITY\LORENA_SANCTUM\shadow_sync.ps1"
-$LogPath = "D:\IMPERIO_ANTIGRAVITY\_BACKUPS\scheduler.log"
 
 $Action = New-ScheduledTaskAction `
     -Execute "powershell.exe" `
