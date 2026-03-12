@@ -24,7 +24,8 @@ try {
     Push-Location $SOURCE
     git add .
     git commit -m "Sovereign Auto-Backup: $TIMESTAMP"
-    Log "Git Commit realizado com sucesso."
+    git push origin master
+    Log "Git Commit e Push realizados com sucesso."
     Pop-Location
 } catch {
     Log "Aviso: Git Sync falhou (talvez sem alteracoes)."
