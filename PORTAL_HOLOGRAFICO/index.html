@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clara Hologram Portal</title>
+    <style>
+        body { margin: 0; background: transparent; overflow: hidden; font-family: 'Inter', sans-serif; }
+        canvas { display: block; filter: drop-shadow(0 0 10px rgba(0, 255, 242, 0.5)); }
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #00fff2;
+            text-shadow: 0 0 5px #00fff2;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 12px;
+        }
+        .status-pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00fff2;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="ui-overlay">
+        <div class="status-pulse"></div> CLARA_CORE_V1.0 / HOLOGRAPHIC_ACTIVE
+    </div>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        // 🎇 Hologram Shader Script
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Core Sphere for the Hologram
+        const geometry = new THREE.IcosahedronGeometry(1.5, 4);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x00fff2, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Outer Glow Layers
+        const outerGeo = new THREE.IcosahedronGeometry(2, 2);
+        const outerMat = new THREE.MeshBasicMaterial({ 
+            color: 0x0099ff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.1 
+        });
+        const outerSphere = new THREE.Mesh(outerGeo, outerMat);
+        scene.add(outerSphere);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.y += 0.005;
+            sphere.rotation.x += 0.002;
+            outerSphere.rotation.y -= 0.003;
+            
+            // Subtle "Breathing" glitch effect
+            const time = Date.now() * 0.001;
+            sphere.scale.setScalar(1 + Math.sin(time * 2) * 0.05);
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
